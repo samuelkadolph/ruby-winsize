@@ -49,11 +49,11 @@ size = Winsize.new(32, 160)
 # or
 # size = $stdout.winsize
 
-in, out, pid = PTY.spawn
+input, output, pid = PTY.spawn
 
-out.winsize = winsize
+output.winsize = size
 # or
-# out.winsize = 32, 160
+# output.winsize = 32, 160
 ```
 
 You may want to combine `winsize` and catching the [`SIGWINCH`](http://en.wikipedia.org/wiki/SIGWINCH) signal so you
@@ -67,4 +67,6 @@ puts "Terminal size is #{$stdout.winsize.columns}x#{$stdout.winsize.rows}"
 Signal.trap "WINCH" do
   puts "Terminal resized to #{$stdout.winsize.columns}x#{$stdout.winsize.rows}"
 end
+
+loop { sleep(10) }
 ```
