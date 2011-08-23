@@ -9,6 +9,10 @@ module Winsize
       @rows, @columns, @horizontal_pixels, @vertical_pixels = rows, columns, horizontal_pixels, vertical_pixels
     end
 
+    def [](index)
+      [rows, columns][index]
+    end
+
     def to_ioctl
       [rows, columns, horizontal_pixels, vertical_pixels].pack("SSSS")
     end
