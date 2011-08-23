@@ -3,7 +3,7 @@
 
 void Init_winsize()
 {
-	VALUE rb_mWinSize = rb_define_module("Winsize");
-	rb_const_set(rb_mWinSize, rb_intern("TIOCGWINSZ"), ULONG2NUM(TIOCGWINSZ));
-	rb_const_set(rb_mWinSize, rb_intern("TIOCSWINSZ"), ULONG2NUM(TIOCSWINSZ));
+  VALUE rb_mWinSize = rb_define_module("Winsize");
+  rb_define_const(rb_mWinSize, "TIOCGWINSZ", ULONG2NUM(TIOCGWINSZ));
+  rb_define_const(rb_mWinSize, "TIOCSWINSZ", ULONG2NUM(TIOCSWINSZ));
 }
