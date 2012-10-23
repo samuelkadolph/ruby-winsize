@@ -1,3 +1,3 @@
-module WinSize
-  VERSION = "1.0.1"
+class Winsize
+  VERSION = "2.0.0"
 end

@@ -1,17 +1,23 @@
-$:.push File.expand_path("../lib", __FILE__)
-require "winsize/version"
+require File.expand_path("../.gemspec", __FILE__)
+require File.expand_path("../lib/winsize/version", __FILE__)
 
-Gem::Specification.new do |s|
-  s.name        = "winsize"
-  s.version     = WinSize::VERSION
-  s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Samuel Kadolph"]
-  s.email       = ["samuel@kadolph.com"]
-  s.homepage    = "https://github.com/samuelkadolph/ruby-winsize"
-  s.summary     = %q{Small library that adds methods for getting and setting the winsize of any TTY IO object.}
-  s.description = %q{ruby-winsize adds two methods (winsize and winsize=) to for use with any IO instance for a TTY device.} +
-                  %q{ The Winsize::Winsize class is an intermediate form that is used for ioctl calls to the TTY device.}
+Gem::Specification.new do |gem|
+  gem.name        = "winsize"
+  gem.authors     = ["Samuel Kadolph"]
+  gem.email       = ["samuel@kadolph.com"]
+  gem.description = readme.description
+  gem.summary     = readme.summary
+  gem.homepage    = "http://samuelkadolph.github.com/ruby-winsize/"
+  gem.version     = Winsize::VERSION
 
-  s.files      = Dir["{ext,lib}/**/*"] + ["LICENSE", "README.md"]
-  s.extensions = ["ext/extconf.rb"]
+  gem.files       = Dir["lib/**/*"]
+  gem.extensions  = Dir["ext/extconf.rb"]
+  gem.test_files  = Dir["test/**/*_test.rb"]
+
+  gem.required_ruby_version = ">= 1.8.7"
+
+  gem.add_development_dependency "bundler", "~> 1.2.1"
+  gem.add_development_dependency "mocha", "~> 0.12.1"
+  gem.add_development_dependency "rake", "~> 0.9.2.2"
+  gem.add_development_dependency "rake-compiler", "~> 0.8.1"
 end

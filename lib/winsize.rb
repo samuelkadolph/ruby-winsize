@@ -1,26 +1,27 @@
-require "winsize.so"
-require "winsize/version"
+class Winsize
+  require "winsize.so"
+  require "winsize/version"
 
-module Winsize
-  class Winsize
-    attr_accessor :rows, :columns, :horizontal_pixels, :vertical_pixels
+  attr_accessor :rows, :columns, :horizontal_pixels, :vertical_pixels
+  alias cols columns
 
-    def initialize(rows, columns, horizontal_pixels = 0, vertical_pixels = 0)
-      @rows, @columns, @horizontal_pixels, @vertical_pixels = rows, columns, horizontal_pixels, vertical_pixels
-    end
-
-    def [](index)
-      [rows, columns][index]
-    end
-
-    def to_ioctl
-      [rows, columns, horizontal_pixels, vertical_pixels].pack("SSSS")
-    end
+  def initialize(rows, columns, horizontal_pixels = 0, vertical_pixels = 0)
+    @rows, @columns, @horizontal_pixels, @vertical_pixels = rows, columns, horizontal_pixels, vertical_pixels
   end
 
-  module IOExtensions
-    # TIOCGWINSZ & TIOCSWINSZ are defined in ext/winsize.c
+  def [](index)
+    to_ary[index]
+  end
 
+  def to_ary
+    [rows, columns, horizontal_pixels, vertical_pixels]
+  end
+
+  def to_ioctl
+    [rows, columns, horizontal_pixels, vertical_pixels].pack("SSSS")
+  end
+
+  module IOExtension
     def winsize
       size = ""
       ioctl(TIOCGWINSZ, size)
@@ -28,13 +29,12 @@ module Winsize
     end
 
     def winsize=(size)
-      size = Winsize.new(*size) unless size.respond_to?(:to_ioctl)
-      size = size.to_ioctl
+      size = size.respond_to?(:to_ioctl) ? size.to_ioctl : Winsize.new(*size).to_ioctl
       ioctl(TIOCSWINSZ, size)
     end
   end
 end
 
 class IO
-  include Winsize::IOExtensions
+  include Winsize::IOExtension
 end

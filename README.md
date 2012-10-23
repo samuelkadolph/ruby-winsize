@@ -1,72 +1,77 @@
+[![Build Status](https://secure.travis-ci.org/samuelkadolph/ruby-winsize.png?branch=master)](http://travis-ci.org/samuelkadolph/ruby-winsize)
+
 # ruby-winsize
 
-ruby-winsize is a small library that lets you get and set the winsize of a terminal.
+winsize is a small library that lets you get and set the winsize of a tty.
 
-ruby-winsize adds two methods (`winsize` and `winsize=`) to for use with any
-`IO` instance for a TTY device. The `Winsize::Winsize` class is an intermediate
-form that is used for `ioctl` calls to the TTY device.
+## Description
 
-## Installing
+winsize adds 2 methods: `winsize` and `winsize=` to `IO` that allows you to control the size of a tty window. Mainly used
+with `pty` to deal with executables that word wrap (i.e. `top`). *If you are using ruby 1.9.3 this gem is not needed.
+`require "io/console"` provides the same functionality.*
 
-### Recommended
+## Installation
 
-```
-gem install winsize
-```
+add this line your application's Gemfile:
 
-### Edge
+    gem "winsize"
 
-```
-git clone https://github.com/samuelkadolph/ruby-winsize
-cd ruby-winsize && rake install
-```
+And then execute:
+
+    $ bundle install
+
+Or install it yourself as:
+
+    $ gem install winsize
 
 ## Usage
 
-To get the size of the `$stdout` terminal.
+#### Get the size of the terminal
 
 ```ruby
 require "winsize"
 
-size = $stdout.winsize
-puts "Your terminal is #{size.columns}x#{size.rows}"
-puts "Your terminal is #{size.horizontal_pixels}px*#{size.vertical_pixels}px"
+rows, cols = $stdout.winsize
+puts "Your terminal is #{cols}x#{rows}"
 ```
 
-To set the size of a pty terminal.
-This is useful if you are running a subshell and want the subshell to have the
-same output size as the terminal you yourself are running in.
-
-You might think it would be useful to set the winsize of `$stdout` it actually
-isn't since the terminal is usually limited by the monitor size or the terminal
-application and increasing the size messes with trimming logic.
+#### Set the size of a pty terminal
 
 ```ruby
 require "pty"
 require "winsize"
 
-size = Winsize.new(32, 160)
-# or
-# size = $stdout.winsize
-
+size = Winsize.new(32, 180)
 input, output, pid = PTY.spawn
-
 output.winsize = size
-# or
-# output.winsize = 32, 160
 ```
 
-You may want to combine `winsize` and catching the [`SIGWINCH`](http://en.wikipedia.org/wiki/SIGWINCH) signal so you
-update something that your terminal has been resized.
+#### Reacting to a resized terminal
+
+You may want to combine `winsize` and catching the [`SIGWINCH`](http://en.wikipedia.org/wiki/SIGWINCH) signal so you can
+react when the terminal has been resized.
 
 ```ruby
 require "winsize"
 
-puts "Terminal size is #{$stdout.winsize.columns}x#{$stdout.winsize.rows}"
+puts "Terminal size is #{$stdout.winsize.cols}x#{$stdout.winsize.rows}"
 
-Signal.trap "WINCH" do
-  puts "Terminal resized to #{$stdout.winsize.columns}x#{$stdout.winsize.rows}"
+Signal.trap(:WINCH) do
+  puts "Terminal resized to #{$stdout.winsize.cols}x#{$stdout.winsize.rows}"
 end
 
 loop { sleep(10) }
 ```
+
+#### `io/console` API compatible
+
+```ruby
+require "winsize"
+
+$stdout.winsize.to_ary # => [32, 180]
+$stdout.winsize = [32, 180]
+```
+
+## Contributing
+
+Fork, branch & pull request.
