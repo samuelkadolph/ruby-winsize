@@ -17,8 +17,8 @@ describe Winsize do
 
   it "should not work on non tty files" do
     read, _ = IO.pipe
-    -> { read.winsize }.must_raise(Errno::ENOTTY, Errno::EINVAL)
-    -> { read.winsize = [10, 10] }.must_raise(Errno::ENOTTY, Errno::EINVAL)
+    lambda { read.winsize }.must_raise(Errno::ENOTTY, Errno::EINVAL)
+    lambda { read.winsize = [10, 10] }.must_raise(Errno::ENOTTY, Errno::EINVAL)
   end
 
   it "should set the winsize on a pty" do
