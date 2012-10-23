@@ -2,4 +2,4 @@ source :rubygems
 
 gemspec
 
-gem "minitest", platform: "ruby_18"
+gem "minitest", :platform => :ruby_18
