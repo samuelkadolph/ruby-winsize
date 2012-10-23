@@ -16,7 +16,6 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = ">= 1.8.7"
 
-  gem.add_development_dependency "bundler", "~> 1.2.1"
   gem.add_development_dependency "mocha", "~> 0.12.1"
   gem.add_development_dependency "rake", "~> 0.9.2.2"
   gem.add_development_dependency "rake-compiler", "~> 0.8.1"
