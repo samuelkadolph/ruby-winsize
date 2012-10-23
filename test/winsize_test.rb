@@ -17,8 +17,8 @@ describe Winsize do
 
   it "should not work on non tty files" do
     read, _ = IO.pipe
-    -> { read.winsize }.must_raise Errno::ENOTTY
-    -> { read.winsize = [10, 10] }.must_raise Errno::ENOTTY
+    -> { read.winsize }.must_raise(Errno::ENOTTY, Errno::EINVAL)
+    -> { read.winsize = [10, 10] }.must_raise(Errno::ENOTTY, Errno::EINVAL)
   end
 
   it "should set the winsize on a pty" do
@@ -27,7 +27,7 @@ describe Winsize do
       size = Winsize.new(32, 180)
       master.winsize = size
       master.winsize.rows.must_equal(32)
-      master.winsize.colums.must_equal(180)
+      master.winsize.columns.must_equal(180)
     ensure
       Process.kill(:KILL, pid)
     end
