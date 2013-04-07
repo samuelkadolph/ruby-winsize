@@ -1,5 +1,5 @@
-require "test_helper"
 require "pty"
+require "test_helper"
 require "winsize"
 
 describe Winsize do
