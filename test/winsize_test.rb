@@ -3,9 +3,6 @@ require "pty"
 require "winsize"
 
 describe Winsize do
-  before do
-  end
-
   it "should add winsize and winsize= to IO" do
     $stdout.must_respond_to(:winsize)
     $stdout.must_respond_to(:winsize=)
