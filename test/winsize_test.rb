@@ -1,6 +1,5 @@
-require "pty"
 require "test_helper"
-require "winsize"
+require "pty"
 
 describe Winsize do
   it "should add winsize and winsize= to IO" do

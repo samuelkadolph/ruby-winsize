@@ -1,6 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/samuelkadolph/ruby-winsize.png?branch=master)](http://travis-ci.org/samuelkadolph/ruby-winsize)
-
-# ruby-winsize
+# ruby-winsize [![Build Status](https://secure.travis-ci.org/samuelkadolph/ruby-winsize.png?branch=master)](http://travis-ci.org/samuelkadolph/ruby-winsize)
 
 winsize is a small library that lets you get and set the winsize of a tty.
 
